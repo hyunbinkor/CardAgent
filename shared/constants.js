@@ -108,7 +108,7 @@ export const BEDROCK_PRESETS = {
   // document-generator: 기획서 (Opus 모델, 긴 출력, 약간의 창의성)
   presentation: {
     region: process.env.BEDROCK_REGION || 'us-east-1',
-    modelId: process.env.BEDROCK_PRESENTATION_MODEL_ID || BEDROCK_BASE.modelId,
+    modelId: process.env.BEDROCK_MODEL_ID || BEDROCK_BASE.modelId,
     maxTokens: 100000,
     temperature: 0.1,
     requestTimeout: 120000
