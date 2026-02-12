@@ -85,11 +85,14 @@ export async function searchServices(args) {
     const rows = await query(sql, params);
 
     // original_json 파싱
+    // [v3.0.1] mysql2는 JSON 컬럼을 자동 파싱하므로 타입 체크 필요
     const results = [];
     for (const row of rows) {
       if (row.original_json_str) {
         try {
-          const parsed = JSON.parse(row.original_json_str);
+          const parsed = typeof row.original_json_str === 'string'
+            ? JSON.parse(row.original_json_str)
+            : row.original_json_str;
           results.push(parsed);
         } catch (parseError) {
           logger.warn(`JSON 파싱 실패 (service_id: ${row.service_id}): ${parseError.message}`);
