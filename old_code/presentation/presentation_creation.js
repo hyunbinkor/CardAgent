@@ -172,7 +172,7 @@ async function generateCardPresentation(jsonDataFilePath, jsonAnalysisFilePath) 
   }
 
   // `assets` 폴더를 기준으로 파일 경로를 구성
-  const assetsPath = process.env.ASSETS_PATH || 'C:/Projects/Opering_Demo/asset'; // 현재 작업 디렉토리에 있는 'assets' 폴더를 기준으로 함
+  const assetsPath = process.env.ASSETS_PATH || 'C:/CardAgent/asset'; // 현재 작업 디렉토리에 있는 'assets' 폴더를 기준으로 함
   const absoluteDataPath = path.join(assetsPath, jsonDataFilePath);
   const absoluteAnalysisPath = path.join(assetsPath, jsonAnalysisFilePath);
 

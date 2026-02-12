@@ -14,7 +14,7 @@ import getMccCodeFromClaude from './useClaude.js';
 let mccCode = {};
 try {
   const fileContent = fs.readFileSync(
-    process.env.MCC_PATH || "C:/Projects/Opering_Demo/card/mcp_profitability_analysis/mccCode.json",
+    process.env.MCC_PATH || "C:/CardAgent/card/mcp_profitability_analysis/mccCode.json",
     'utf-8'
   );
   mccCode = JSON.parse(fileContent);
@@ -25,7 +25,7 @@ try {
 }
 
 // 환경 변수나 설정 파일에서 경로를 가져오도록 개선
-const BASE_PATH = process.env.BASE_PATH || 'C:/Projects/Opering_Demo';
+const BASE_PATH = process.env.BASE_PATH || 'C:/CardAgent';
 const MERCHANT_FEE_PATH = path.join(BASE_PATH, 'card', 'mcp_profitability_analysis', 'merchant_fee.json');
 const CARD_DATA_DIR = path.join(BASE_PATH, 'asset', 'card-data');
 const DATA_DIR = path.join(BASE_PATH, 'mydata', 'mydata_span', 'generated_data');

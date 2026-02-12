@@ -605,7 +605,7 @@ async function generatePdfFromHtml(htmlString, outputPdfPath) {
     console.error("=== generatePdfFromHtml 함수 시작 ===");
 
     // 최종 PDF 파일 경로를 `outputPdfPath` 파라미터로 사용
-    const outputPdfFilePath = process.env.PDF_OUTPUT_PATH || "C:/Projects/Opering_Demo/asset/card-pdfs/result.pdf";
+    const outputPdfFilePath = process.env.PDF_OUTPUT_PATH || "C:/CardAgent/asset/card-pdfs/result.pdf";
 
     try {
         console.error("HTML을 PDF로 직접 변환 중...");
@@ -735,7 +735,7 @@ async function generatePdfFromTemplate(dataJsonFilePath, tempFolderPath) {
     }
 
     // `assets` 폴더를 기준으로 파일 경로를 구성
-    const assetsPath = process.env.ASSETS_PATH || 'C:/Projects/Opering_Demo/asset'; // 이 경로는 실제 환경에 맞게 조정해야 합니다.
+    const assetsPath = process.env.ASSETS_PATH || 'C:/CardAgent/asset'; // 이 경로는 실제 환경에 맞게 조정해야 합니다.
     const absoluteDataPath = path.join(assetsPath, dataJsonFilePath);
 
     console.error(`카드 데이터 JSON 파일 경로: ${absoluteDataPath}`);
@@ -893,7 +893,7 @@ class CardProductSheetServer {
                     return {
                         content: [{
                             type: 'text',
-                            text: 'C:/Projects/Opering_Demo/asset/card-pdfs 경로에 생성되었습니다. 작업을 완료합니다.'
+                            text: 'C:/CardAgent/asset/card-pdfs 경로에 생성되었습니다. 작업을 완료합니다.'
                         }, ],
                     };
                 } catch (error) {

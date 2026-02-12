@@ -444,7 +444,7 @@ export class OracleCardMCPServer {
   // 파일 처리 (단일 카드 상품 JSON 파일)
   async processCardFile(filePath) {
     try {
-      const fileContent = await fs.readFile(path.join('C:/Projects/Opering_Demo/asset', filePath), 'utf8');
+      const fileContent = await fs.readFile(path.join('C:/CardAgent/asset', filePath), 'utf8');
       const fileName = path.basename(filePath);
 
       return await this.processCardJson(fileContent, fileName);

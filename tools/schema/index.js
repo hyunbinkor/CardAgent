@@ -34,7 +34,7 @@ ajv.addSchema(cardSchema, 'card-schema');
 const ajvValidate = ajv.getSchema('card-schema');
 
 // 환경변수에서 경로 참조
-const basePath = process.env.ASSETS_PATH || 'C:/Projects/Opering_Demo/asset';
+const basePath = process.env.ASSETS_PATH || 'C:/CardAgent/asset';
 const aliasMapPath = process.env.ALIAS_MAP_PATH || path.join(basePath, 'schemas', 'alias-map.json');
 const poolPath = process.env.CANONICAL_POOLS_PATH || path.join(basePath, 'schemas', 'canonical-pools.json');
 
