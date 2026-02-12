@@ -1,0 +1,518 @@
+{
+  "김밥천국": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "본죽": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "놀부부대찌개": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "백반집": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "국밥집": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "고기집": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "전주비빔밥": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "족발/보쌈": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "동네중국집": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "홍콩반점": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "고급중식당": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "차이나팩토리": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "짜장면집": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "초밥집": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "돈까스전문점": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "라멘집": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "이자카야": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "회전초밥": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "우동집": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "파스타 전문점": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "피자헛": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "스테이크하우스": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "버거킹": {
+    "industry_code": 5814,
+    "certainty": 0.95
+  },
+  "맥도날드": {
+    "industry_code": 5814,
+    "certainty": 0.95
+  },
+  "스타벅스": {
+    "industry_code": 5814,
+    "certainty": 0.95
+  },
+  "이디야커피": {
+    "industry_code": 5814,
+    "certainty": 0.95
+  },
+  "투썸플레이스": {
+    "industry_code": 5814,
+    "certainty": 0.95
+  },
+  "커피빈": {
+    "industry_code": 5814,
+    "certainty": 0.95
+  },
+  "블루보틀": {
+    "industry_code": 5814,
+    "certainty": 0.95
+  },
+  "커피전문점": {
+    "industry_code": 5814,
+    "certainty": 0.95
+  },
+  "CU": {
+    "industry_code": 5499,
+    "certainty": 0.95
+  },
+  "GS25": {
+    "industry_code": 5499,
+    "certainty": 0.95
+  },
+  "세븐일레븐": {
+    "industry_code": 5499,
+    "certainty": 0.95
+  },
+  "이마트24": {
+    "industry_code": 5499,
+    "certainty": 0.95
+  },
+  "이마트": {
+    "industry_code": 5411,
+    "certainty": 0.95
+  },
+  "홈플러스": {
+    "industry_code": 5411,
+    "certainty": 0.95
+  },
+  "롯데마트": {
+    "industry_code": 5411,
+    "certainty": 0.95
+  },
+  "롯데백화점": {
+    "industry_code": 5311,
+    "certainty": 0.95
+  },
+  "신세계백화점": {
+    "industry_code": 5311,
+    "certainty": 0.95
+  },
+  "현대백화점": {
+    "industry_code": 5311,
+    "certainty": 0.95
+  },
+  "쿠팡": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "네이버페이": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "G마켓": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "옥션": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "11번가": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "위메프": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "SSG.COM": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "롯데ON": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "인터파크": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "삼성카드 쇼핑": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "티머니": {
+    "industry_code": 4111,
+    "certainty": 0.95
+  },
+  "캐시비": {
+    "industry_code": 4111,
+    "certainty": 0.95
+  },
+  "카카오택시": {
+    "industry_code": 4121,
+    "certainty": 0.95
+  },
+  "쏘카": {
+    "industry_code": 7512,
+    "certainty": 0.95
+  },
+  "따릉이": {
+    "industry_code": 7997,
+    "certainty": 0.95
+  },
+  "CGV": {
+    "industry_code": 7832,
+    "certainty": 0.95
+  },
+  "롯데시네마": {
+    "industry_code": 7832,
+    "certainty": 0.95
+  },
+  "넷플릭스": {
+    "industry_code": 5817,
+    "certainty": 0.95
+  },
+  "멜론": {
+    "industry_code": 5817,
+    "certainty": 0.95
+  },
+  "왓챠": {
+    "industry_code": 5817,
+    "certainty": 0.95
+  },
+  "지니뮤직": {
+    "industry_code": 5817,
+    "certainty": 0.95
+  },
+  "스포츠센터": {
+    "industry_code": 7997,
+    "certainty": 0.95
+  },
+  "당구장": {
+    "industry_code": 7997,
+    "certainty": 0.95
+  },
+  "수영장": {
+    "industry_code": 7997,
+    "certainty": 0.95
+  },
+  "스키장": {
+    "industry_code": 7997,
+    "certainty": 0.95
+  },
+  "레포츠클럽": {
+    "industry_code": 7997,
+    "certainty": 0.95
+  },
+  "테니스장": {
+    "industry_code": 7997,
+    "certainty": 0.95
+  },
+  "실외골프장": {
+    "industry_code": 7997,
+    "certainty": 0.95
+  },
+  "실내골프장": {
+    "industry_code": 7997,
+    "certainty": 0.95
+  },
+  "볼링장": {
+    "industry_code": 7997,
+    "certainty": 0.95
+  },
+  "올리브영": {
+    "industry_code": 5977,
+    "certainty": 0.95
+  },
+  "다이소": {
+    "industry_code": 5399,
+    "certainty": 0.95
+  },
+  "롭스": {
+    "industry_code": 5977,
+    "certainty": 0.95
+  },
+  "아리따움": {
+    "industry_code": 5977,
+    "certainty": 0.95
+  },
+  "이용·미용": {
+    "industry_code": 7230,
+    "certainty": 0.95
+  },
+  "피부미용실": {
+    "industry_code": 7298,
+    "certainty": 0.95
+  },
+  "안마업": {
+    "industry_code": 7299,
+    "certainty": 0.95
+  },
+  "체형관리": {
+    "industry_code": 7298,
+    "certainty": 0.95
+  },
+  "스포츠마사지": {
+    "industry_code": 7299,
+    "certainty": 0.95
+  },
+  "피부미용": {
+    "industry_code": 7298,
+    "certainty": 0.95
+  },
+  "교보문고": {
+    "industry_code": 5942,
+    "certainty": 0.95
+  },
+  "영풍문고": {
+    "industry_code": 5942,
+    "certainty": 0.95
+  },
+  "예스24": {
+    "industry_code": 5942,
+    "certainty": 0.95
+  },
+  "알라딘": {
+    "industry_code": 5942,
+    "certainty": 0.95
+  },
+  "일반전문학원": {
+    "industry_code": 8299,
+    "certainty": 0.95
+  },
+  "종합병원": {
+    "industry_code": 8062,
+    "certainty": 0.95
+  },
+  "치과병원": {
+    "industry_code": 8021,
+    "certainty": 0.95
+  },
+  "약국": {
+    "industry_code": 5912,
+    "certainty": 0.95
+  },
+  "생명보험": {
+    "industry_code": 6300,
+    "certainty": 0.95
+  },
+  "손해보험": {
+    "industry_code": 6300,
+    "certainty": 0.95
+  },
+  "건강보험": {
+    "industry_code": 6300,
+    "certainty": 0.95
+  },
+  "고용보험": {
+    "industry_code": 6300,
+    "certainty": 0.95
+  },
+  "산재보험": {
+    "industry_code": 6300,
+    "certainty": 0.95
+  },
+  "SKT": {
+    "industry_code": 4814,
+    "certainty": 0.95
+  },
+  "KT": {
+    "industry_code": 4814,
+    "certainty": 0.95
+  },
+  "LG U+": {
+    "industry_code": 4814,
+    "certainty": 0.95
+  },
+  "알뜰폰": {
+    "industry_code": 4814,
+    "certainty": 0.95
+  },
+  "SK브로드밴드": {
+    "industry_code": 4899,
+    "certainty": 0.95
+  },
+  "KT스카이라이프": {
+    "industry_code": 4899,
+    "certainty": 0.95
+  },
+  "LG헬로비전": {
+    "industry_code": 4899,
+    "certainty": 0.95
+  },
+  "코웨이": {
+    "industry_code": 7372,
+    "certainty": 0.95
+  },
+  "SK매직": {
+    "industry_code": 7372,
+    "certainty": 0.95
+  },
+  "쿠쿠": {
+    "industry_code": 7372,
+    "certainty": 0.95
+  },
+  "아파트 관리비": {
+    "industry_code": 4900,
+    "certainty": 0.95
+  },
+  "국민연금": {
+    "industry_code": 9222,
+    "certainty": 0.95
+  },
+  "전기요금": {
+    "industry_code": 4900,
+    "certainty": 0.95
+  },
+  "도시가스": {
+    "industry_code": 4900,
+    "certainty": 0.95
+  },
+  "상하수도": {
+    "industry_code": 4900,
+    "certainty": 0.95
+  },
+  "배달의민족": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "요기요": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "쿠팡이츠": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "땡겨요": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "사진관": {
+    "industry_code": 7395,
+    "certainty": 0.95
+  },
+  "하나투어": {
+    "industry_code": 4722,
+    "certainty": 0.95
+  },
+  "모두투어": {
+    "industry_code": 4722,
+    "certainty": 0.95
+  },
+  "인터파크투어": {
+    "industry_code": 4722,
+    "certainty": 0.95
+  },
+  "미국항공": {
+    "industry_code": 3001,
+    "certainty": 0.95
+  },
+  "유럽국철": {
+    "industry_code": 4112,
+    "certainty": 0.95
+  },
+  "힐튼호텔": {
+    "industry_code": 7011,
+    "certainty": 0.95
+  },
+  "메리어트호텔": {
+    "industry_code": 7011,
+    "certainty": 0.95
+  },
+  "부킹닷컴": {
+    "industry_code": 4722,
+    "certainty": 0.95
+  },
+  "신라면세점": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "롯데면세점": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "글로벌명품": {
+    "industry_code": 5948,
+    "certainty": 0.95
+  },
+  "미국레스토랑": {
+    "industry_code": 5812,
+    "certainty": 0.95
+  },
+  "유럽카페": {
+    "industry_code": 5814,
+    "certainty": 0.95
+  },
+  "아마존": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "이베이": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  },
+  "알리바바": {
+    "industry_code": 5309,
+    "certainty": 0.95
+  }
+}

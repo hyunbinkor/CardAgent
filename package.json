@@ -1,0 +1,26 @@
+{
+  "name": "card-mcp-server",
+  "version": "3.0.0",
+  "description": "카드 상품 관리 통합 MCP 서버 — benefit, schema, document, profitability, oracle 5개 도메인 통합",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "LOG_LEVEL=debug node index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.700.0",
+    "ajv": "^8.17.0",
+    "ajv-formats": "^3.0.0",
+    "axios": "^1.7.0",
+    "dotenv": "^16.4.0",
+    "mysql2": "^3.11.0",
+    "oracledb": "^6.7.0",
+    "puppeteer": "^23.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["mcp", "card", "benefit", "oracle", "profitability"]
+}
