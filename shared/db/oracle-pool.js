@@ -74,7 +74,7 @@ export async function initializeDB() {
     const dbConfig = {
       user: process.env.ORACLE_USER || 'cdapp2016',
       password: process.env.ORACLE_PASSWORD || 'cdapp2016',
-      connectString: process.env.ORACLE_CONNECT_STRING || 'localhost:1523/xe',
+      connectString: process.env.ORACLE_CONNECT_STRING || 'localhost:1523/fcamdb23',
       poolMin: 1,
       poolMax: 10,
       poolIncrement: 1

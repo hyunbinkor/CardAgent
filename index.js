@@ -1,22 +1,25 @@
 #!/usr/bin/env node
 // ============================================================
-// index.js — card-mcp-server v3.0.2 통합 진입점
+// index.js — card-mcp-server v3.0.3 통합 진입점
 //
-// 5개 분리 MCP 서버 → 1개 통합 서버
-//   1. benefit    (5 tools) — 카드 혜택 검색 (MySQL)
-//   2. schema     (6 tools) — 카드 데이터 관리 (File I/O + AJV)
-//   3. document   (2 tools) — 문서 생성 (Bedrock + Puppeteer)
-//   4. profitability (1 tool) — 수익성 분석
-//   5. oracle     (2 tools) — Oracle DB 삽입
+// 6개 분리 MCP 서버 → 1개 통합 서버
+//   1. benefit       (5 tools) — 카드 혜택 검색 (MySQL)
+//   2. schema        (6 tools) — 카드 데이터 관리 (File I/O + AJV)
+//   3. document      (2 tools) — 문서 생성 (Bedrock + Puppeteer)
+//   4. profitability (1 tool)  — 수익성 분석
+//   5. oracle        (2 tools) — Oracle DB 삽입
+//   6. batch         (2 tools) — 혜택 시뮬레이션 배치 (REST API)
 //
 // 원본 서버:
 //   card-benefit, card-file-schema-manager,
 //   card-document-generator, card-profitability-analysis,
-//   oracle-card-processor
+//   oracle-card-processor, card-batch-server
 //
 // v3.0.2 수정:
 //   - dotenv: import 'dotenv/config' → 명시적 __dirname 기반 경로 지정
 //     (Claude Desktop에서 cwd가 서버 루트가 아닐 수 있으므로)
+// v3.0.3 수정:
+//   - batch 도메인 추가 (혜택 시뮬레이션 배치 등록/결과 조회)
 // ============================================================
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
@@ -63,6 +66,12 @@ import {
   handle as handleOracle
 } from './tools/oracle/index.js';
 
+// [v3.0.3] 혜택 시뮬레이션 배치
+import {
+  tools as batchTools,
+  handle as handleBatch
+} from './tools/batch/index.js';
+
 const logger = createLogger('server');
 
 // ── 도메인 레지스트리 ───────────────────────────────────────
@@ -79,6 +88,7 @@ const DOMAINS = [
   { name: 'document',      tools: documentTools,      handler: handleDocument },
   { name: 'profitability', tools: profitabilityTools,  handler: handleProfitability },
   { name: 'oracle',        tools: oracleTools,        handler: handleOracle },
+  { name: 'batch',         tools: batchTools,         handler: handleBatch },       // [v3.0.3]
 ];
 
 // 도구명 → 핸들러 라우팅 맵
@@ -115,7 +125,7 @@ logger.info(
 const server = new Server(
   {
     name: 'card-mcp-server',
-    version: '3.0.2',
+    version: '3.0.3',
   },
   {
     capabilities: {
@@ -211,13 +221,13 @@ process.on('SIGTERM', () => shutdown('SIGTERM'));
 // ── 서버 시작 ───────────────────────────────────────────────
 
 async function main() {
-  logger.info('card-mcp-server v3.0.2 시작 중...');
+  logger.info('card-mcp-server v3.0.3 시작 중...');
 
   const transport = new StdioServerTransport();
   await server.connect(transport);
 
   logger.info(
-    `card-mcp-server v3.0.2 실행 중 — ` +
+    `card-mcp-server v3.0.3 실행 중 — ` +
     `${DOMAINS.length}개 도메인, ${allTools.length}개 도구`
   );
 }
