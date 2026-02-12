@@ -4,10 +4,13 @@
 // 원본: json_to_cpdb.js (CommonJS → ESM 변환)
 // 사용 도메인: oracle (process_card_file, test_db_connection)
 //
+// v3.0.1 수정:
+//   - getConnection()에 lazy init 추가 (initializeDB 자동 호출)
+//   - closePool alias export 추가 (index.js shutdown 호환)
+//
 // @example
-//   import { initializeDB, getConnection, closeDB } from '../shared/db/oracle-pool.js';
-//   await initializeDB();
-//   const conn = await getConnection();
+//   import { getConnection, closePool } from '../shared/db/oracle-pool.js';
+//   const conn = await getConnection();  // 풀 미초기화 시 자동 초기화
 //   try {
 //     const result = await conn.execute('SELECT SYSDATE FROM DUAL');
 //   } finally {
@@ -98,12 +101,21 @@ export async function initializeDB() {
 }
 
 /**
- * Oracle 커넥션 획득
+ * Oracle 커넥션 획득 (lazy init 포함)
+ * 풀이 초기화되지 않았으면 자동으로 initializeDB()를 호출합니다.
  * 반드시 사용 후 conn.close()를 호출하세요.
  *
  * @returns {Promise<import('oracledb').Connection>}
+ * @throws {Error} DB 초기화 실패 시
  */
 export async function getConnection() {
+  if (!initialized) {
+    logger.info('Oracle 풀 미초기화 상태, 자동 초기화 시작...');
+    const success = await initializeDB();
+    if (!success) {
+      throw new Error('Oracle DB 초기화 실패 — 환경변수(ORACLE_USER, ORACLE_PASSWORD, ORACLE_CONNECT_STRING, ORACLE_CLIENT_PATH)를 확인하세요');
+    }
+  }
   return oracledb.getConnection();
 }
 
@@ -112,6 +124,7 @@ export async function getConnection() {
  * 서버 shutdown 시 호출
  */
 export async function closeDB() {
+  if (!initialized) return;
   try {
     await oracledb.getPool().close(0);
     initialized = false;
@@ -120,3 +133,6 @@ export async function closeDB() {
     logger.error('DB 종료 실패:', error.message);
   }
 }
+
+// index.js shutdown 호환용 alias
+export { closeDB as closePool };
