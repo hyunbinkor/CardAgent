@@ -14,7 +14,7 @@ import getMccCodeFromClaude from './useClaude.js';
 let mccCode = {};
 try {
   const fileContent = fs.readFileSync(
-    process.env.MCC_PATH || "C:/CardAgent/card/mcp_profitability_analysis/mccCode.json",
+    process.env.MCC_PATH || "C:/CardAgent/data/mccCode.json",
     'utf-8'
   );
   mccCode = JSON.parse(fileContent);
