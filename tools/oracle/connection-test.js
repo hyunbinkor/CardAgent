@@ -43,7 +43,7 @@ export async function testDbConnection() {
         '3. 재시도';
     }
 
-    return mcpError(`❌ DB 연결 실패: ${error.message}${helpMessage}`);
+    return mcpError(`DB 연결 실패: ${error.message}${helpMessage}`);
 
   } finally {
     if (connection) {

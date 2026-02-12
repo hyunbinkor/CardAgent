@@ -3,6 +3,7 @@
 //
 // 원본: card_mcp.js L345-453 (searchServices)
 // 개선: CB-2 — FIND_IN_SET → JSON_CONTAINS (merchants_virtual)
+// [v3.0.1] LIMIT 바인딩 → 직접 삽입 (prepared statement 호환)
 // ============================================================
 
 import { query } from '../../shared/db/mysql-pool.js';
@@ -75,8 +76,8 @@ export async function searchServices(args) {
     if (conditions.length > 0) {
       sql += ` WHERE ${conditions.join(' AND ')}`;
     }
-    sql += ` ORDER BY service_id LIMIT ?`;
-    params.push(limit);
+    // [v3.0.1] LIMIT 직접 삽입 (prepared statement 타입 호환 문제 방지)
+    sql += ` ORDER BY service_id LIMIT ${limit}`;
 
     logger.debug(`SQL: ${sql}`);
     logger.debug(`Params: ${JSON.stringify(params)}`);

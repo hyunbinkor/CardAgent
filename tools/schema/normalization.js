@@ -6,8 +6,12 @@
 // Phase 1: 별칭 맵 → 정규형 치환 (즉시, 코드)
 // Phase 2: 정규 풀 대조 (즉시, 코드)
 // Phase 3: 미식별 값 → LLM 판단 (Bedrock Converse API)
+//
+// [v3.0.1] load() 방어 + save() 디렉토리 자동 생성
 // ============================================================
 
+import path from 'path';
+import fs from 'fs/promises';
 import { readJson, writeJson } from '../../shared/utils.js';
 import { BedrockClient } from '../../shared/bedrock-client.js';
 import { BEDROCK_PRESETS } from '../../shared/constants.js';
@@ -38,13 +42,22 @@ export class AliasMapManager {
     } catch {
       logger.warn('별칭 맵 파일 없음 — 기본 맵으로 초기화');
       this.map = getDefaultAliasMap();
-      await this.save();
+      // [v3.0.1] save 실패해도 메모리 맵으로 계속 동작
+      try {
+        await this.save();
+        logger.info('기본 별칭 맵 파일 생성 완료');
+      } catch (saveErr) {
+        logger.warn(`기본 별칭 맵 저장 실패 (메모리 맵으로 계속 동작): ${saveErr.message}`);
+      }
     }
   }
 
   /** 별칭 맵 저장 */
   async save() {
     this.map.last_updated = new Date().toISOString().slice(0, 10);
+    // [v3.0.1] 디렉토리가 없으면 자동 생성
+    const dir = path.dirname(this.mapPath);
+    await fs.mkdir(dir, { recursive: true });
     await writeJson(this.mapPath, this.map);
     logger.info('별칭 맵 저장 완료');
   }

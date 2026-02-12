@@ -3,6 +3,8 @@
 //
 // 원본: card_mcp.js L215-338 (searchCards)
 // 개선: CB-1 — FIND_IN_SET → JSON_CONTAINS
+// [v3.0.1] annual_fee → annual_fee_basic/annual_fee_brand 분리 컬럼 대응
+// [v3.0.1] LIMIT 바인딩 → 직접 삽입 (prepared statement 호환)
 // ============================================================
 
 import { query } from '../../shared/db/mysql-pool.js';
@@ -58,19 +60,19 @@ export async function searchCards(args) {
       params.push(args.partnership_brand);
     }
 
-    // 연회비 범위
+    // [v3.0.1] 연회비 범위 — 직접 컬럼 참조 (annual_fee_basic, annual_fee_brand)
     const feeType = args.annual_fee_type || 'total';
     let feeColumn;
     switch (feeType) {
       case 'basic':
-        feeColumn = "JSON_EXTRACT(annual_fee, '$.basic')";
+        feeColumn = 'annual_fee_basic';
         break;
       case 'brand':
-        feeColumn = "JSON_EXTRACT(annual_fee, '$.brand')";
+        feeColumn = 'annual_fee_brand';
         break;
       case 'total':
       default:
-        feeColumn = "(COALESCE(JSON_EXTRACT(annual_fee, '$.basic'), 0) + COALESCE(JSON_EXTRACT(annual_fee, '$.brand'), 0))";
+        feeColumn = '(COALESCE(annual_fee_basic, 0) + COALESCE(annual_fee_brand, 0))';
         break;
     }
 
@@ -85,9 +87,11 @@ export async function searchCards(args) {
 
     // 쿼리 빌드
     const limit = Math.min(parseInt(args.limit) || 10, 200);
+    // [v3.0.1] SELECT: annual_fee → annual_fee_basic, annual_fee_brand
     let sql = `
       SELECT product_name, product_code, card_type, grade, brand, issuer,
-             annual_fee, reward_type, partnership_brands, card_service_mapping,
+             annual_fee_basic, annual_fee_brand,
+             reward_type, partnership_brands, card_service_mapping,
              original_json AS original_json_str
       FROM card_products
     `;
@@ -95,8 +99,8 @@ export async function searchCards(args) {
     if (conditions.length > 0) {
       sql += ` WHERE ${conditions.join(' AND ')}`;
     }
-    sql += ` ORDER BY product_code LIMIT ?`;
-    params.push(limit);
+    // [v3.0.1] LIMIT 직접 삽입 (prepared statement 타입 호환 문제 방지)
+    sql += ` ORDER BY product_code LIMIT ${limit}`;
 
     logger.debug(`SQL: ${sql}`);
     logger.debug(`Params: ${JSON.stringify(params)}`);

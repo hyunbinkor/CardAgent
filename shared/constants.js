@@ -3,6 +3,8 @@
 //
 // 5개 도메인의 모든 상수를 이 파일 하나로 관리합니다.
 // import { X } from '../shared/constants.js'
+//
+// [v3.0.1] DB 스키마와 enum 값 일치 — overseas→foreign, discount_rate→discount, +this_year
 // ============================================================
 
 // ── 정규식 패턴 ─────────────────────────────────────────────
@@ -44,9 +46,12 @@ export const TARGET_CUSTOMERS = ['individual', 'corporate'];
 // ── card_services enum ──────────────────────────────────────
 export const SERVICE_CLASSIFICATIONS = ['discount', 'mileage', 'cashback', 'annual_fee_exclusion'];
 export const RATE_UNITS = ['percentage', 'per_1000_krw', 'per_transaction', 'fixed_amount'];
-export const RATE_TYPES = ['discount_rate', 'cashback', 'points', 'mileage'];
-export const SPEND_PERIODS = ['last_month', 'this_month', 'last_year', 'none'];
-export const USAGE_AREAS = ['domestic', 'overseas', 'both'];
+// [v3.0.1] DB: 'discount' (not 'discount_rate'), + 'voucher', 'free_service'
+export const RATE_TYPES = ['discount', 'cashback', 'points', 'mileage', 'voucher', 'free_service'];
+// [v3.0.1] DB: + 'this_year'
+export const SPEND_PERIODS = ['last_month', 'this_month', 'last_year', 'this_year', 'none'];
+// [v3.0.1] DB: 'foreign' (not 'overseas')
+export const USAGE_AREAS = ['domestic', 'foreign', 'both'];
 
 // ── 길이 제한 ───────────────────────────────────────────────
 export const LIMITS = {
@@ -70,10 +75,10 @@ export const ORACLE_CODE_MAPS = {
     discount: '10', mileage: '20', cashback: '60', annual_fee_exclusion: '50'
   },
   PERFORMANCE_AMOUNT_MAP: {
-    last_month: '1', this_month: '2', none: '0'
+    last_month: '1', this_month: '2', this_year: '3', none: '0'
   },
   PERFORMANCE_COUNT_MAP: {
-    last_year: '3', last_month: '1', this_month: '2', none: '0'
+    last_year: '3', last_month: '1', this_month: '2', this_year: '3', none: '0'
   }
 };
 
