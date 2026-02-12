@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ============================================================
-// index.js — card-mcp-server v3.0.0 통합 진입점
+// index.js — card-mcp-server v3.0.2 통합 진입점
 //
 // 5개 분리 MCP 서버 → 1개 통합 서버
 //   1. benefit    (5 tools) — 카드 혜택 검색 (MySQL)
@@ -13,6 +13,10 @@
 //   card-benefit, card-file-schema-manager,
 //   card-document-generator, card-profitability-analysis,
 //   oracle-card-processor
+//
+// v3.0.2 수정:
+//   - dotenv: import 'dotenv/config' → 명시적 __dirname 기반 경로 지정
+//     (Claude Desktop에서 cwd가 서버 루트가 아닐 수 있으므로)
 // ============================================================
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
@@ -21,7 +25,14 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import 'dotenv/config';
+
+// [v3.0.2] dotenv 명시적 경로 로드
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 import { createLogger } from './shared/logger.js';
 
@@ -104,7 +115,7 @@ logger.info(
 const server = new Server(
   {
     name: 'card-mcp-server',
-    version: '3.0.0',
+    version: '3.0.2',
   },
   {
     capabilities: {
@@ -200,13 +211,13 @@ process.on('SIGTERM', () => shutdown('SIGTERM'));
 // ── 서버 시작 ───────────────────────────────────────────────
 
 async function main() {
-  logger.info('card-mcp-server v3.0.0 시작 중...');
+  logger.info('card-mcp-server v3.0.2 시작 중...');
 
   const transport = new StdioServerTransport();
   await server.connect(transport);
 
   logger.info(
-    `card-mcp-server v3.0.0 실행 중 — ` +
+    `card-mcp-server v3.0.2 실행 중 — ` +
     `${DOMAINS.length}개 도메인, ${allTools.length}개 도구`
   );
 }

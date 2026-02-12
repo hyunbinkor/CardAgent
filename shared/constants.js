@@ -5,6 +5,7 @@
 // import { X } from '../shared/constants.js'
 //
 // [v3.0.1] DB 스키마와 enum 값 일치 — overseas→foreign, discount_rate→discount, +this_year
+// [v3.0.2] BEDROCK_PRESETS.presentation: 별도 모델 환경변수 분리 (Opus)
 // ============================================================
 
 // ── 정규식 패턴 ─────────────────────────────────────────────
@@ -100,11 +101,18 @@ export const BEDROCK_BASE = {
 };
 
 // 서버별 Bedrock 설정 프리셋
+// [v3.0.2] presentation: 별도 환경변수(BEDROCK_PRESENTATION_MODEL_ID)로 Opus 모델 지정
 export const BEDROCK_PRESETS = {
   // schema-manager: 정규화 (짧은 출력, 정확성 최우선)
   normalization: { ...BEDROCK_BASE, maxTokens: 2048, temperature: 0, requestTimeout: 30000 },
-  // document-generator: 기획서 (긴 출력, 약간의 창의성)
-  presentation: { ...BEDROCK_BASE, maxTokens: 100000, temperature: 0.1, requestTimeout: 120000 },
+  // document-generator: 기획서 (Opus 모델, 긴 출력, 약간의 창의성)
+  presentation: {
+    region: process.env.BEDROCK_REGION || 'us-east-1',
+    modelId: process.env.BEDROCK_PRESENTATION_MODEL_ID || BEDROCK_BASE.modelId,
+    maxTokens: 100000,
+    temperature: 0.1,
+    requestTimeout: 120000
+  },
   // document-generator: 설명서 (HTML 생성)
   infoSheet: { ...BEDROCK_BASE, maxTokens: 100000, temperature: 0.2, requestTimeout: 600000 }
 };

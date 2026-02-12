@@ -9,6 +9,9 @@
 //   - console.error → createLogger('document')
 //   - McpError throw → mcpError() 래퍼 반환
 //   - PDF 출력 경로를 PDF_OUTPUT_DIR 환경변수로 관리
+//
+// v3.0.2 수정:
+//   - 반환 메시지 개선: Agent가 PDF 경로만 사용자에게 안내하도록 유도
 // ============================================================
 
 import { promises as fs } from 'fs';
@@ -217,8 +220,11 @@ export async function generateInfoSheetPdf(args) {
     // 10. HTML → PDF 변환
     await generatePdfFromHtml(finalHtml, outputPdfPath);
 
+    // [v3.0.2] 반환 메시지 개선: Agent가 경로만 사용자에게 안내하도록 유도
     return mcpText(
-      `${outputPdfPath} 경로에 카드 상품 설명서 PDF가 생성되었습니다. 작업을 완료합니다.`
+      `✅ 카드 상품 설명서 PDF가 생성되었습니다.\n` +
+      `📁 저장 위치: ${outputPdfPath}\n` +
+      `사용자에게 위 경로를 안내해주세요. PDF 파일은 해당 경로에서 직접 열어 확인할 수 있습니다.`
     );
 
   } catch (error) {
