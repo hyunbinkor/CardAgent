@@ -3,7 +3,7 @@
 //
 // 원본: info_sheet/index.js → generatePdfFromTemplate()
 // 개선:
-//   - BedrockModel 클래스 → 공유 BedrockClient 사용
+//   - BedrockModel 클래스 → 공유 LLMClient (OpenRouter) 사용
 //   - fallback_template 인라인 → INFO_SHEET_TEMPLATE_PATH에서 읽기
 //   - 하드코딩 경로 → process.env 참조
 //   - console.error → createLogger('document')
@@ -17,8 +17,8 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
-import { BedrockClient } from '../../shared/bedrock-client.js';
-import { BEDROCK_PRESETS } from '../../shared/constants.js';
+import { createLLMClient } from '../../shared/llm/client.js';
+import { LLM_PRESETS } from '../../shared/constants.js';
 import { mcpText, mcpError } from '../../shared/utils.js';
 import { createLogger } from '../../shared/logger.js';
 import { getInfoSheetFillPrompt } from './info-sheet-prompt.js';
@@ -62,7 +62,7 @@ function validateJsonContent(buffer, label) {
  * LLM 응답에서 유효한 HTML 코드 추출
  * <!DOCTYPE html> ... </html> 패턴을 찾아 반환
  *
- * @param {string} text - Bedrock 응답 텍스트
+ * @param {string} text - LLM 응답 텍스트
  * @param {string} fallbackHtml - 파싱 실패 시 사용할 원본 HTML
  * @returns {string} 추출된 HTML 코드
  */
@@ -138,7 +138,7 @@ function buildPdfFileName(cardData, dataJsonFilePath) {
  * 카드 상품 설명서 PDF 생성
  *
  * 플로우: HTML 템플릿 읽기 → JSON 데이터 읽기
- *       → Bedrock로 HTML에 데이터 채우기 → Puppeteer PDF 변환
+ *       → LLM으로 HTML에 데이터 채우기 → Puppeteer PDF 변환
  *
  * @param {Object} args
  * @param {string} args.dataJsonFilePath - 카드 데이터 JSON (assets 상대 경로)
@@ -186,31 +186,27 @@ export async function generateInfoSheetPdf(args) {
     const cardData = validateJsonContent(jsonDocumentBytes, '카드 데이터');
     logger.info(`카드 데이터 필드 수: ${Object.keys(cardData).length}`);
 
-    // 6. Bedrock 메시지 구성 — JSON 데이터 + 프롬프트 + HTML 템플릿
+    // 6. LLM 메시지 구성 — JSON 데이터를 utf-8로 인라인 + 프롬프트 + HTML 템플릿
+    const cardJsonText = jsonDocumentBytes.toString('utf-8');
+
     const messages = [
       {
         role: 'user',
         content: [
-          {
-            document: {
-              name: 'Card details in json',
-              format: 'txt',
-              source: { bytes: jsonDocumentBytes }
-            }
-          },
-          { text: getInfoSheetFillPrompt() },
-          { text: htmlTemplate }
+          { type: 'text', text: `## 카드 데이터 (JSON)\n\`\`\`json\n${cardJsonText}\n\`\`\`` },
+          { type: 'text', text: getInfoSheetFillPrompt() },
+          { type: 'text', text: htmlTemplate }
         ]
       }
     ];
 
-    // 7. Bedrock 호출 — HTML 템플릿에 카드 데이터 채우기
-    logger.info('Bedrock 모델로 최종 HTML 생성 중...');
-    const client = new BedrockClient(BEDROCK_PRESETS.infoSheet, logger);
-    const bedrockResponse = await client.converse(messages);
+    // 7. LLM 호출 — HTML 템플릿에 카드 데이터 채우기
+    logger.info('LLM으로 최종 HTML 생성 중...');
+    const client = createLLMClient(LLM_PRESETS.infoSheet, logger);
+    const llmResponse = await client.complete(messages);
 
     // 8. 응답에서 HTML 추출
-    const finalHtml = extractHtml(bedrockResponse, htmlTemplate);
+    const finalHtml = extractHtml(llmResponse, htmlTemplate);
 
     // 9. 출력 디렉토리 확인 + PDF 파일명 생성
     await fs.mkdir(pdfOutputDir, { recursive: true });

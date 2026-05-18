@@ -5,7 +5,7 @@
 //
 // Phase 1: 별칭 맵 → 정규형 치환 (즉시, 코드)
 // Phase 2: 정규 풀 대조 (즉시, 코드)
-// Phase 3: 미식별 값 → LLM 판단 (Bedrock Converse API)
+// Phase 3: 미식별 값 → LLM 판단 (OpenRouter chat completions)
 //
 // [v3.0.1] load() 방어 + save() 디렉토리 자동 생성
 // ============================================================
@@ -13,8 +13,8 @@
 import path from 'path';
 import fs from 'fs/promises';
 import { readJson, writeJson } from '../../shared/utils.js';
-import { BedrockClient } from '../../shared/bedrock-client.js';
-import { BEDROCK_PRESETS } from '../../shared/constants.js';
+import { createLLMClient } from '../../shared/llm/client.js';
+import { LLM_PRESETS } from '../../shared/constants.js';
 import { createLogger } from '../../shared/logger.js';
 import { getDefaultAliasMap } from './alias-defaults.js';
 
@@ -115,12 +115,12 @@ export class AliasMapManager {
 }
 
 // ============================================================
-// LLM 분류 — Bedrock Converse API
+// LLM 분류 — OpenRouter chat completions
 // ============================================================
 
 async function classifyUnknownValues(unknowns, pools) {
   try {
-    const client = new BedrockClient(BEDROCK_PRESETS.normalization, logger);
+    const client = createLLMClient(LLM_PRESETS.normalization, logger);
 
     const prompt = `다음은 카드 상품 데이터의 정규화되지 않은 값들입니다.
 각 값에 대해 판단해주세요:
@@ -139,8 +139,8 @@ ${JSON.stringify(unknowns, null, 2)}
 반드시 JSON 배열로만 응답하세요. 각 항목에 field, value, action, target, reason 포함.
 예시: [{"field":"brands","value":"스벅","action":"map_to_existing","target":"스타벅스","reason":"스벅은 스타벅스의 약칭"}]`;
 
-    const result = await client.converse([
-      { role: 'user', content: [{ text: prompt }] }
+    const result = await client.complete([
+      { role: 'user', content: prompt }
     ]);
 
     // JSON 추출

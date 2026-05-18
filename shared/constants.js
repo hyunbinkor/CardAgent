@@ -5,7 +5,7 @@
 // import { X } from '../shared/constants.js'
 //
 // [v3.0.1] DB 스키마와 enum 값 일치 — overseas→foreign, discount_rate→discount, +this_year
-// [v3.0.2] BEDROCK_PRESETS.presentation: 별도 모델 환경변수 분리 (Opus)
+// [v3.0.2] LLM_PRESETS: OpenRouter 기반, 프리셋별 모델 환경변수 분리
 // ============================================================
 
 // ── 정규식 패턴 ─────────────────────────────────────────────
@@ -93,28 +93,31 @@ export const DIR_MAP = {
 export const ALL_DIR_TYPES = ['pdf', 'card-data', 'profitability', 'schemas'];
 export const FILE_FILTER_TYPES = [...ALL_DIR_TYPES, 'all'];
 
-// ── Bedrock 공통 베이스 ─────────────────────────────────────
-// 환경변수 우선, 없으면 하드코딩 기본값 사용
-export const BEDROCK_BASE = {
-  region: process.env.BEDROCK_REGION || 'us-east-1',
-  modelId: process.env.BEDROCK_MODEL_ID || 'arn:aws:bedrock:us-east-1:484907498824:inference-profile/us.anthropic.claude-3-7-sonnet-20250219-v1:0'
-};
-
-// 서버별 Bedrock 설정 프리셋
-// [v3.0.2] presentation: 별도 환경변수(BEDROCK_PRESENTATION_MODEL_ID)로 Opus 모델 지정
-export const BEDROCK_PRESETS = {
+// ── LLM 프리셋 (OpenRouter) ─────────────────────────────────
+// 모델 ID는 OpenRouter 슬러그 형식. .env로 프리셋별 override 가능.
+// 기본값은 모두 anthropic/claude-3.7-sonnet — 필요 시 환경변수로 분리 가능.
+export const LLM_PRESETS = {
   // schema-manager: 정규화 (짧은 출력, 정확성 최우선)
-  normalization: { ...BEDROCK_BASE, maxTokens: 2048, temperature: 0, requestTimeout: 30000 },
-  // document-generator: 기획서 (Opus 모델, 긴 출력, 약간의 창의성)
+  normalization: {
+    modelId: process.env.OPENROUTER_MODEL_NORMALIZATION || 'anthropic/claude-sonnet-4',
+    maxTokens: 2048,
+    temperature: 0,
+    requestTimeout: 30000
+  },
+  // document-generator: 기획서 (긴 출력, 약간의 창의성)
   presentation: {
-    region: process.env.BEDROCK_REGION || 'us-east-1',
-    modelId: process.env.BEDROCK_MODEL_ID || BEDROCK_BASE.modelId,
+    modelId: process.env.OPENROUTER_MODEL_PRESENTATION || 'anthropic/claude-sonnet-4',
     maxTokens: 100000,
     temperature: 0.1,
     requestTimeout: 120000
   },
   // document-generator: 설명서 (HTML 생성)
-  infoSheet: { ...BEDROCK_BASE, maxTokens: 100000, temperature: 0.2, requestTimeout: 600000 }
+  infoSheet: {
+    modelId: process.env.OPENROUTER_MODEL_INFO_SHEET || 'anthropic/claude-sonnet-4',
+    maxTokens: 100000,
+    temperature: 0.2,
+    requestTimeout: 600000
+  }
 };
 
 // ── 수익성 분석 기준값 ──────────────────────────────────────

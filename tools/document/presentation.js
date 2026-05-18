@@ -3,13 +3,12 @@
 //
 // 원본: presentation_creation.js → generateCardPresentation()
 // 개선:
-//   - BedrockModel 클래스 → 공유 BedrockClient 사용
+//   - BedrockModel 클래스 → 공유 LLMClient (OpenRouter) 사용
 //   - 하드코딩 경로 → process.env.ASSETS_PATH
 //   - console.error → createLogger('document')
 //   - McpError throw → mcpError() 래퍼 반환
 //
 // v3.0.2 수정:
-//   - Bedrock 모델: Sonnet → Opus (BEDROCK_PRESENTATION_MODEL_ID)
 //   - 이중 출력: 마크다운(채팅 표시용) + HTML(PDF 변환용)
 //   - HTML → Puppeteer PDF 변환 후 파일 저장
 //   - MCP 응답: 마크다운 본문 + PDF 경로 안내
@@ -18,8 +17,8 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
-import { BedrockClient } from '../../shared/bedrock-client.js';
-import { BEDROCK_PRESETS } from '../../shared/constants.js';
+import { createLLMClient } from '../../shared/llm/client.js';
+import { LLM_PRESETS } from '../../shared/constants.js';
 import { mcpText, mcpError } from '../../shared/utils.js';
 import { createLogger } from '../../shared/logger.js';
 import { getPresentationPrompt } from './presentation-prompt.js';
@@ -185,34 +184,25 @@ export async function generatePresentation(args) {
     logger.info(`카드 데이터 필드 수: ${Object.keys(cardData).length}`);
     logger.info(`분석 데이터 필드 수: ${Object.keys(analysisData).length}`);
 
-    // 4. Bedrock 메시지 구성
+    // 4. LLM 메시지 구성 — JSON bytes를 utf-8 텍스트로 인라인
+    const cardJsonText = jsonDocumentBytes.toString('utf-8');
+    const analysisJsonText = jsonAnalysisDocumentBytes.toString('utf-8');
+
     const messages = [
       {
         role: 'user',
         content: [
-          {
-            document: {
-              name: 'Card details in json',
-              format: 'txt',
-              source: { bytes: jsonDocumentBytes }
-            }
-          },
-          {
-            document: {
-              name: 'Card analysis in json',
-              format: 'txt',
-              source: { bytes: jsonAnalysisDocumentBytes }
-            }
-          },
-          { text: getPresentationPrompt() }
+          { type: 'text', text: `## 카드 데이터 (JSON)\n\`\`\`json\n${cardJsonText}\n\`\`\`` },
+          { type: 'text', text: `## 분석 데이터 (JSON)\n\`\`\`json\n${analysisJsonText}\n\`\`\`` },
+          { type: 'text', text: getPresentationPrompt() }
         ]
       }
     ];
 
-    // 5. Bedrock 호출 (Opus 모델)
-    logger.info('기획서 생성 중 (Opus 모델)...');
-    const client = new BedrockClient(BEDROCK_PRESETS.presentation, logger);
-    const generatedContent = await client.converse(messages);
+    // 5. LLM 호출
+    logger.info('기획서 생성 중...');
+    const client = createLLMClient(LLM_PRESETS.presentation, logger);
+    const generatedContent = await client.complete(messages);
     logger.info(`기획서 생성 완료 (${generatedContent.length}자)`);
 
     // 6. [v3.0.2] 마크다운 / HTML 분리
